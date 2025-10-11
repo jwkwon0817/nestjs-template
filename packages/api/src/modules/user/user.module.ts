@@ -5,15 +5,12 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { PrismaModule } from '@/common/modules/prisma';
 import { RedisModule } from '@/common/modules/redis';
-import {
-  AuthFacade,
-  LoginHandler,
-  LogoutHandler,
-  ValidateAccessTokenHandler,
-} from './application';
+import { LoginHandler, LogoutHandler } from './application/commands';
 import { RefreshTokenHandler } from './application/commands/refresh-token/refresh-token.handler';
-import { UserRepository } from './infrastructure';
-import { AuthController } from './presentation';
+import { AuthFacade } from './application/facades';
+import { ValidateAccessTokenHandler } from './application/queries';
+import { UserRepository } from './infrastructure/persistence';
+import { AuthController } from './presentation/controllers';
 import { JwtStrategy } from './strategy/jwt.strategy';
 
 const CommandHandlers = [

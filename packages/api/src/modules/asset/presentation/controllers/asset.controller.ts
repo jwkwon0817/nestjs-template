@@ -1,4 +1,4 @@
-import { CheckAssetExistsQuery, CheckAssetExistsResult } from '@modules/asset/application';
+import { CheckAssetExistsQuery, CheckAssetExistsResult } from '@modules/asset/application/queries';
 import { Controller, Get, Query } from '@nestjs/common';
 import { QueryBus } from '@nestjs/cqrs';
 import { ApiTags } from '@nestjs/swagger';

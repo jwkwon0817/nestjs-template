@@ -1,5 +1,5 @@
 import { AppModule } from '@app/app.module';
-import { BadRequestException, Logger, ValidationPipe } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import packageJson from '@/../package.json';
@@ -21,21 +21,6 @@ async function bootstrap() {
   const logger = new Logger('bootstrap');
 
   app.setGlobalPrefix('api');
-
-  // Apply ValidationPipe FIRST before anything else
-  app.useGlobalPipes(new ValidationPipe({
-    transform:            true,
-    whitelist:            true,
-    forbidNonWhitelisted: true,
-    transformOptions:     { enableImplicitConversion: false },
-    exceptionFactory:     errors => {
-      const messages = errors.map(err => `${err.property} - ${Object.values(err.constraints ?? {}).join(', ')}`);
-
-      return new BadRequestException(messages);
-    },
-  }));
-
-  logger.log('✅ ValidationPipe registered in main.ts');
 
   applyBodyLimit(app, '1mb');
 

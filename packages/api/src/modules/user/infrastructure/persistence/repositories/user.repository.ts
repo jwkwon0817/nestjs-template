@@ -2,6 +2,7 @@ import { UserEntity } from '@modules/user/domain/entities/user.entity';
 import { UserRepositoryPort } from '@modules/user/domain/repositories/user.repository.port';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@/common/modules/prisma';
+import { UserMapper } from '../mappers';
 
 @Injectable()
 export class UserRepository implements UserRepositoryPort {
@@ -18,11 +19,7 @@ export class UserRepository implements UserRepositoryPort {
       return null;
     }
 
-    const userEntity = UserEntity.from({
-      ...user, password: '',
-    });
-
-    return userEntity.toSafeUser();
+    return UserMapper.toDomainSafe(user);
   }
 
   async findUserByIdWithPassword(id: string): Promise<UserEntity | null> {
@@ -32,7 +29,7 @@ export class UserRepository implements UserRepositoryPort {
       return null;
     }
 
-    return UserEntity.from(user);
+    return UserMapper.toDomain(user);
   }
 
   async findUserByEmail(email: string): Promise<UserEntity | null> {
@@ -42,6 +39,7 @@ export class UserRepository implements UserRepositoryPort {
       return null;
     }
 
-    return UserEntity.from(user);
+    return UserMapper.toDomain(user);
   }
 }
+

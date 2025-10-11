@@ -5,15 +5,15 @@ import {
   LogoutResult,
   RefreshTokenCommand,
   RefreshTokenResult,
-} from '@modules/user/application';
+} from '@modules/user/application/commands';
 import { Authenticated, CurrentUser } from '@modules/user/decorators';
-import { UserEntity } from '@modules/user/domain/entities/user.entity';
+import { UserEntity } from '@modules/user/domain/entities';
 import {
   LoginRequestDto,
   LoginResponseDto,
   LogoutRequestDto,
   RefreshTokenRequestDto,
-} from '@modules/user/presentation';
+} from '@modules/user/presentation/dtos';
 import {
   Body,
   Controller,
@@ -33,27 +33,10 @@ export class AuthController {
 
   @Post('login')
   async login(@Body() dto: LoginRequestDto): Promise<LoginResponseDto> {
-    this.logger.log('===== LOGIN REQUEST START =====');
-
-    this.logger.log(`Received DTO: ${JSON.stringify(dto)}`);
-
-    this.logger.log(`DTO keys: ${Object.keys(dto).join(', ')}`);
-
-    this.logger.log(`DTO.email: ${dto.email}`);
-
-    this.logger.log(`DTO.password: ${dto.password ? '[HIDDEN]' : undefined}`);
-
-    this.logger.log(`DTO is instance of LoginRequestDto: ${dto instanceof LoginRequestDto}`);
-
-    this.logger.log('===== LOGIN REQUEST END =====');
-
     const command = LoginCommand.from(dto);
     const result = await this.commandBus.execute<LoginCommand, LoginResult>(command);
 
-    return {
-      accessToken:  result.accessToken,
-      refreshToken: result.refreshToken,
-    };
+    return LoginResponseDto.from(result);
   }
 
   @Post('logout')
@@ -74,9 +57,6 @@ export class AuthController {
     const command = RefreshTokenCommand.from(dto);
     const result = await this.commandBus.execute<RefreshTokenCommand, RefreshTokenResult>(command);
 
-    return {
-      accessToken:  result.accessToken,
-      refreshToken: result.refreshToken,
-    };
+    return LoginResponseDto.from(result);
   }
 }

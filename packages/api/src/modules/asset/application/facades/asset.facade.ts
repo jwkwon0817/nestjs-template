@@ -1,6 +1,6 @@
+import { AssetDirectory } from '@modules/asset/domain/enums';
 import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { AssetDirectory } from '@/modules/asset/domain';
 import {
   DeleteAssetCommand,
   GetPresignedUrlCommand,

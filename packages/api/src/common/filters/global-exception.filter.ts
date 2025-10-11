@@ -23,29 +23,32 @@ export class GlobalExceptionFilter implements ExceptionFilter {
   catch(exception: Error, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
-    const request = ctx.getRequest<Request>();    const status = exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
+    const request = ctx.getRequest<Request>();
+    const status = exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
 
     let details = exception.message || 'Internal Server Error';
+    let errors: unknown = null;
 
     if (exception instanceof BadRequestException) {
       const exceptionResponse = exception.getResponse() as {
-        message: Array<string> | string;
+        message: string | string[];
+        errors?: unknown;
       };
 
-      const messages =
-        typeof exceptionResponse.message === 'string'
-          ? [exceptionResponse.message]
-          : exceptionResponse.message;
+      details = Array.isArray(exceptionResponse.message)
+        ? exceptionResponse.message.join(', ')
+        : exceptionResponse.message;
 
-      details = messages.join(', ');
+      errors = exceptionResponse.errors ?? null;
     }
 
-    const apiResponse = APIResponseDto.create({
+    const apiResponse = APIResponseDto.from({
       status:   status,
       method:   request.method as HttpMethod,
       instance: request.url,
       details:  details,
       data:     null,
+      errors,
     });
 
     response.status(apiResponse.status).send(apiResponse);

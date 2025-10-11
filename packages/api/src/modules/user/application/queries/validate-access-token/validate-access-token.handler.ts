@@ -1,8 +1,8 @@
 import { JwtPayload } from '@modules/user/domain/types/jwt-payload.type';
+import { UserRepository } from '@modules/user/infrastructure/persistence';
 import { UnauthorizedException } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { JwtService } from '@nestjs/jwt';
-import { UserRepository } from '@/modules/user/infrastructure';
 import { ValidateAccessTokenQuery } from './validate-access-token.query';
 import { ValidateAccessTokenResult } from './validate-access-token.result';
 

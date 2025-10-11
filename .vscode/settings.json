@@ -22,5 +22,8 @@
 		"**/dist": true,
 		"packages/database/client": true,
 		"packages/api/src/metadata.ts": true,
-	}
+	},
+	"cSpell.words": [
+		"dataclasses"
+	]
 }

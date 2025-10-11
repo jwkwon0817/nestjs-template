@@ -9,5 +9,6 @@ export class APIResponseDto<T = unknown> extends DataClass {
   instance:  string;
   details:   string;
   data:      T | null;
+  errors:    unknown | null;
   timestamp: string;
 }

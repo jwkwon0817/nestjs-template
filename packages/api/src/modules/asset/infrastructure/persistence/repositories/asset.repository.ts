@@ -1,6 +1,7 @@
+import { PrismaService } from '@common/modules/prisma';
+import { AssetEntity } from '@modules/asset/domain/entities';
+import { AssetRepositoryPort } from '@modules/asset/domain/repositories';
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '@/common/modules/prisma';
-import { AssetEntity, AssetRepositoryPort } from '@/modules/asset/domain';
 import { AssetMapper } from '../mappers';
 
 @Injectable()

@@ -2,16 +2,15 @@ import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { S3Module } from '@/common/modules/s3';
 import {
-  CheckAssetExistsHandler,
   DeleteAssetHandler,
-  GetAssetDetailHandler,
   GetPresignedUrlHandler,
   UploadAssetHandler,
   UploadMultipleAssetsHandler,
-} from './application';
+} from './application/commands';
 import { AssetFacade } from './application/facades';
-import { AssetRepository } from './infrastructure';
-import { AssetController } from './presentation';
+import { CheckAssetExistsHandler, GetAssetDetailHandler } from './application/queries';
+import { AssetRepository } from './infrastructure/persistence';
+import { AssetController } from './presentation/controllers';
 
 const commandHandlers = [
   UploadAssetHandler,

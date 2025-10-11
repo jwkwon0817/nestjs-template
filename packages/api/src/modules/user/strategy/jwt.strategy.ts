@@ -1,14 +1,15 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { QueryBus } from '@nestjs/cqrs';
 import { PassportStrategy } from '@nestjs/passport';
 import { Request } from 'express';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { AuthFacade } from '../application/facades/auth.facade';
+import { ValidateAccessTokenQuery, ValidateAccessTokenResult } from '../application/queries';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor(private readonly configService: ConfigService,
-    private readonly authFacade: AuthFacade) {
+    private readonly queryBus: QueryBus) {
     super({
       jwtFromRequest:    ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration:  false,
@@ -25,7 +26,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     }
 
     const token = authHeader.split(' ')[1];
-    const result = await this.authFacade.validateAccessToken(token);
+    const result = await this.queryBus.execute<ValidateAccessTokenQuery, ValidateAccessTokenResult>(ValidateAccessTokenQuery.from({ accessToken: token }));
 
     return result.user;
   }
