@@ -170,12 +170,12 @@ SENTRY_DSN=your-sentry-dsn
 
 4. **Run database migrations**
 ```bash
-pnpm database prisma migrate dev
+pnpm database migrate
 ```
 
 5. **Seed the database (optional)**
 ```bash
-pnpm database prisma db seed
+pnpm database seed
 ```
 
 6. **Start the development server**
