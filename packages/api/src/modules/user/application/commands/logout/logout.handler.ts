@@ -1,5 +1,5 @@
-import { LogService } from '@/common/modules/log';
-import { RedisService } from '@/common/modules/redis';
+import { LogService } from '@common/modules/log';
+import { RedisService } from '@common/modules/redis';
 import { UnauthorizedException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { LogoutCommand } from './logout.command';
