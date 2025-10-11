@@ -1,4 +1,3 @@
-import { Temporal } from '@js-temporal/polyfill';
 import {
   type ArgumentsHost,
   BadRequestException,
@@ -12,6 +11,7 @@ import { SentryExceptionCaptured } from '@sentry/nestjs';
 import type { Request, Response } from 'express';
 import { APIResponseDto, type HttpMethod } from '@/common/dto/response.dto';
 import { LogService } from '../modules/log/log.service';
+import { isLocal } from '../utils';
 
 @Catch()
 @Injectable()
@@ -53,40 +53,33 @@ export class GlobalExceptionFilter implements ExceptionFilter {
 
     response.status(apiResponse.status).send(apiResponse);
 
-    const isDevelopment = process.env.NODE_ENV === 'development';
     const is4xxError = status >= 400 && status < 500;
     const is5xxError = status >= 500;
 
-    if (isDevelopment) {
+    if (isLocal()) {
       if ((is4xxError && status !== HttpStatus.NOT_FOUND) || is5xxError) {
-        this.logDetailedError(exception, request);
+        console.error('\n' + '='.repeat(80));
+
+        console.error(`🚨 [${exception.name}] ${exception.message}`);
+
+        console.error('='.repeat(80));
+
+        console.error(`📍 ${request.method} ${request.url}`);
+
+        console.error(`🔢 Status: ${status}`);
+
+        console.error('─'.repeat(80));
+
+        console.error('📚 Stack Trace:');
+
+        console.error(exception.stack);
+
+        console.error('='.repeat(80) + '\n');
       }
     } else {
       if (is5xxError) {
-        this.logger.error('GlobalExceptionFilter', `${exception.name} - ${exception.message}`);
+        this.logger.error(`${exception.name} - ${exception.message}`, exception.stack, 'GlobalExceptionFilter');
       }
     }
-  }
-
-  private logDetailedError(exception: Error, request: Request) {
-    const timestamp = Temporal.Now.instant().toString();
-
-    const errorDetails = {
-      timestamp,
-      exception: {
-        name:    exception.name,
-        message: exception.message,
-        stack:   exception.stack?.split('\n').slice(0, 10)
-          .join('\n'),
-      },
-      request: {
-        method:        request.method,
-        url:           request.url,
-        authorization: request.headers.authorization || '',
-      },
-    };
-
-    this.logger.error('GlobalExceptionFilter',
-      `🚨 Detailed Exception Log\n${JSON.stringify(errorDetails, null, 2)}`);
   }
 }

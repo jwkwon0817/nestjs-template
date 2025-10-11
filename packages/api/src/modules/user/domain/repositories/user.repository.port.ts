@@ -1,9 +1,11 @@
-import { UserEntity } from '../entities/user.entity';
+import { UserEntity, UserEntitySafe } from '../entities/user.entity';
 
 export interface UserRepositoryPort {
-  findUserById(id: string): Promise<Omit<UserEntity, 'password'> | null>;
+  findById(id: string): Promise<UserEntitySafe | null>;
 
-  findUserByIdWithPassword(id: string): Promise<UserEntity | null>;
+  findByIdOrThrow(id: string): Promise<UserEntitySafe>;
 
-  findUserByEmail(email: string): Promise<UserEntity | null>;
+  findByIdWithPassword(id: string): Promise<UserEntity | null>;
+
+  findByEmail(email: string): Promise<UserEntitySafe | null>;
 }

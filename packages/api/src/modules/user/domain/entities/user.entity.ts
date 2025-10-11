@@ -1,6 +1,7 @@
+import { UserStatus } from '@workspace/database';
 import { DataClass } from 'dataclasses';
 
-export type UserStatus = 'ACTIVE' | 'INACTIVE';
+export type UserEntitySafe = Omit<UserEntity, 'password'>;
 
 export class UserEntity extends DataClass {
   id:       string;
@@ -19,10 +20,10 @@ export class UserEntity extends DataClass {
     return this.status === 'INACTIVE';
   }
 
-  toSafeUser(): Omit<UserEntity, 'password'> {
+  toSafeUser(): UserEntitySafe {
     const { password: _password, ...safeUser } = this;
 
-    return safeUser as Omit<UserEntity, 'password'>;
+    return safeUser as UserEntitySafe;
   }
 }
 

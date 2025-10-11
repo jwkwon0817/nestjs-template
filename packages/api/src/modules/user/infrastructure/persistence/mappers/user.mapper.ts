@@ -1,4 +1,4 @@
-import { UserEntity } from '@modules/user/domain/entities';
+import { UserEntity, UserEntitySafe } from '@modules/user/domain/entities';
 import type { User } from '@workspace/database';
 
 export class UserMapper {
@@ -6,7 +6,7 @@ export class UserMapper {
     return UserEntity.from(user);
   }
 
-  static toDomainSafe(user: Omit<User, 'password'>): Omit<UserEntity, 'password'> {
+  static toDomainSafe(user: Omit<User, 'password'>): UserEntitySafe {
     const userEntity = UserEntity.from({
       ...user,
       password: '',

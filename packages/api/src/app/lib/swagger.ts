@@ -33,7 +33,7 @@ function stripPublicMarker(op: OperationObject): void {
 export function applySwagger(app: INestApplication): void {
   const logger = new Logger('Swagger');
 
-  if (isProduction) return;
+  if (isProduction()) return;
 
   const config = (new DocumentBuilder)
     .setTitle('API')

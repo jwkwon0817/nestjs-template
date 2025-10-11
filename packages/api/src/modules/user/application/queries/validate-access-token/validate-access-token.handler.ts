@@ -25,7 +25,7 @@ export class ValidateAccessTokenHandler implements IQueryHandler<ValidateAccessT
       throw new UnauthorizedException('Invalid token type for this API');
     }
 
-    const user = await this.userRepository.findUserById(payload.sub);
+    const user = await this.userRepository.findById(payload.sub);
 
     if (!user) {
       throw new UnauthorizedException('User not found');

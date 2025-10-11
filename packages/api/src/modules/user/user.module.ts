@@ -8,10 +8,10 @@ import { RedisModule } from '@/common/modules/redis';
 import { LoginHandler, LogoutHandler } from './application/commands';
 import { RefreshTokenHandler } from './application/commands/refresh-token/refresh-token.handler';
 import { AuthFacade } from './application/facades';
-import { ValidateAccessTokenHandler } from './application/queries';
+import { UserDetailHandler, ValidateAccessTokenHandler } from './application/queries';
 import { JwtAuthGuard } from './infrastructure/guards';
 import { UserRepository } from './infrastructure/persistence';
-import { AuthController } from './presentation/controllers';
+import { AuthController, UserController } from './presentation/controllers';
 import { JwtStrategy } from './strategy/jwt.strategy';
 
 const CommandHandlers = [
@@ -20,7 +20,7 @@ const CommandHandlers = [
   RefreshTokenHandler,
 ];
 
-const QueryHandlers = [ValidateAccessTokenHandler];
+const QueryHandlers = [ValidateAccessTokenHandler, UserDetailHandler];
 
 @Module({
   imports: [
@@ -43,7 +43,7 @@ const QueryHandlers = [ValidateAccessTokenHandler];
     JwtAuthGuard,
     UserRepository,
   ],
-  controllers: [AuthController],
+  controllers: [AuthController, UserController],
   exports:     [
     AuthFacade, JwtModule, JwtAuthGuard,
   ],

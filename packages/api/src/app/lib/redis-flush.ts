@@ -5,7 +5,7 @@ import { isLocal } from '@/common/utils';
 
 export function applyRedisFlush(app: INestApplication) {
   const logger = new Logger('Redis');
-  const isRedisFlush = isLocal && app.get(ConfigService).get<string>('REDIS_FLUSH_ON_START') === 'true';
+  const isRedisFlush = isLocal() && app.get(ConfigService).get<string>('REDIS_FLUSH_ON_START') === 'true';
 
   if (isRedisFlush) {
     const redisService = app.get(RedisService);
