@@ -18,6 +18,8 @@ export const envValidationSchema = Joi.object({
   // Database
   DATABASE_URL: Joi.string().uri()
     .required(),
+  PRISMA_LOG_LEVEL: Joi.string().valid('query', 'info', 'warn', 'error')
+    .default('warn'),
 
   // Redis
   REDIS_URL: Joi.string().uri()

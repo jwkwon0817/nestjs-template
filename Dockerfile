@@ -4,10 +4,8 @@ WORKDIR /app
 
 RUN corepack enable && corepack prepare pnpm --activate
 
-# Copy workspace configuration
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 
-# Copy package.json files for all packages
 COPY packages/api/package.json ./packages/api/
 COPY packages/database/package.json ./packages/database/
 

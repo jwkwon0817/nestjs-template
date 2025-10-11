@@ -1,3 +1,4 @@
+import { ApiResponseType } from '@common/lib/swagger/decorators';
 import {
   LoginCommand,
   LoginResult,
@@ -6,8 +7,8 @@ import {
   RefreshTokenCommand,
   RefreshTokenResult,
 } from '@modules/user/application/commands';
-import { Authenticated, CurrentUser } from '@modules/user/decorators';
 import { UserEntity } from '@modules/user/domain/entities';
+import { CurrentUser, Public } from '@modules/user/presentation/decorators';
 import {
   LoginRequestDto,
   LoginResponseDto,
@@ -31,7 +32,17 @@ export class AuthController {
   constructor(private readonly commandBus: CommandBus) {
   }
 
+  @Public()
   @Post('login')
+  @ApiResponseType({
+    type:        LoginResponseDto,
+    description: 'User login successful',
+    errors:      [
+      400,
+      401,
+      500,
+    ],
+  })
   async login(@Body() dto: LoginRequestDto): Promise<LoginResponseDto> {
     const command = LoginCommand.from(dto);
     const result = await this.commandBus.execute<LoginCommand, LoginResult>(command);
@@ -40,7 +51,14 @@ export class AuthController {
   }
 
   @Post('logout')
-  @Authenticated()
+  @ApiResponseType({
+    type:        'boolean',
+    description: 'User logout successful',
+    errors:      [
+      401,
+      500,
+    ],
+  })
   async logout(@CurrentUser() user: UserEntity, @Body() dto: LogoutRequestDto): Promise<boolean> {
     const command = LogoutCommand.from({
       userId:       user.id,
@@ -52,7 +70,17 @@ export class AuthController {
     return result.success;
   }
 
+  @Public()
   @Post('refresh')
+  @ApiResponseType({
+    type:        LoginResponseDto,
+    description: 'Token refresh successful',
+    errors:      [
+      400,
+      401,
+      500,
+    ],
+  })
   async refreshToken(@Body() dto: RefreshTokenRequestDto): Promise<LoginResponseDto> {
     const command = RefreshTokenCommand.from(dto);
     const result = await this.commandBus.execute<RefreshTokenCommand, RefreshTokenResult>(command);

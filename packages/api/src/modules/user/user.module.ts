@@ -9,6 +9,7 @@ import { LoginHandler, LogoutHandler } from './application/commands';
 import { RefreshTokenHandler } from './application/commands/refresh-token/refresh-token.handler';
 import { AuthFacade } from './application/facades';
 import { ValidateAccessTokenHandler } from './application/queries';
+import { JwtAuthGuard } from './infrastructure/guards';
 import { UserRepository } from './infrastructure/persistence';
 import { AuthController } from './presentation/controllers';
 import { JwtStrategy } from './strategy/jwt.strategy';
@@ -39,10 +40,13 @@ const QueryHandlers = [ValidateAccessTokenHandler];
     ...QueryHandlers,
     AuthFacade,
     JwtStrategy,
+    JwtAuthGuard,
     UserRepository,
   ],
   controllers: [AuthController],
-  exports:     [AuthFacade, JwtModule],
+  exports:     [
+    AuthFacade, JwtModule, JwtAuthGuard,
+  ],
 })
 export class UserModule {
 }
