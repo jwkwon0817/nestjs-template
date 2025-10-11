@@ -5,6 +5,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { SentryModule } from '@sentry/nestjs/setup';
 import { GlobalExceptionFilter, PrismaExceptionFilter } from '@/common/filters';
+import { HealthModule } from '@/common/modules/health';
 import { AppController } from './app.controller';
 import { DatabaseModule, FeatureModule } from './integration';
 
@@ -13,6 +14,7 @@ import { DatabaseModule, FeatureModule } from './integration';
     ConfigModule,
     DatabaseModule,
     FeatureModule,
+    HealthModule,
     CacheModule.registerAsync({
       imports:    [ConfigModule],
       isGlobal:   true,
