@@ -1,0 +1,14 @@
+model Asset {
+  id String @id @default(uuid())
+
+  filename         String
+  originalFilename String
+
+  contentType String
+
+  fileSize BigInt
+
+  key String @unique
+
+  createdAt DateTime @default(now())
+}

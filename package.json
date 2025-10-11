@@ -1,0 +1,19 @@
+{
+  "name": "nestjs-template",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "api": "pnpm --filter @workspace/api",
+    "database": "pnpm --filter @workspace/database"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.17.0",
+  "devDependencies": {
+    "@code-guideline/eslint": "^0.1.6",
+    "@types/node": "^24.7.1",
+    "eslint": "^9.37.0"
+  }
+}
