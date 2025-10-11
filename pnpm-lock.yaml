@@ -92,6 +92,9 @@ importers:
       joi:
         specifier: ^18.0.1
         version: 18.0.1
+      keyv:
+        specifier: ^5.5.3
+        version: 5.5.3
       mime-types:
         specifier: ^3.0.1
         version: 3.0.1
