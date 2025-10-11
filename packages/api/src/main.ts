@@ -7,6 +7,7 @@ import {
   applyBodyLimit,
   applyCors,
   applyGlobalEnhancements,
+  applyHelmet,
   applyRedisFlush,
   applySwagger,
 } from '@/app/lib';
@@ -21,6 +22,8 @@ async function bootstrap() {
   const logger = new Logger('bootstrap');
 
   app.setGlobalPrefix('api');
+
+  applyHelmet(app);
 
   applyBodyLimit(app, '1mb');
 

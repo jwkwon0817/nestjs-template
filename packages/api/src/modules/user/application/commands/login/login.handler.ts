@@ -20,6 +20,12 @@ export class LoginHandler implements ICommandHandler<LoginCommand, LoginResult> 
   async execute(command: LoginCommand): Promise<LoginResult> {
     const user = await this.userRepository.findUserByEmail(command.email);
 
+    console.log(user);
+
+    console.log(command.password);
+
+    console.log(await comparePassword(command.password, user?.password ?? ''));
+
     if (!user || !await comparePassword(command.password, user.password)) {
       throw new UnauthorizedException('Invalid credentials');
     }
