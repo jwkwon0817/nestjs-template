@@ -1,6 +1,6 @@
-export class GetPresignedUrlCommand {
-  constructor(public readonly id: string,
-    public readonly expiresIn?: number) {
-  }
-}
+import { DataClass } from 'dataclasses';
 
+export class GetPresignedUrlCommand extends DataClass {
+  id:         string;
+  expiresIn?: number;
+}

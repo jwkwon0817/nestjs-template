@@ -1,4 +1,6 @@
-export class DeleteAssetCommand {
-  constructor(public readonly id: string) {}
+import { DataClass } from 'dataclasses';
+
+export class DeleteAssetCommand extends DataClass {
+  id: string;
 }
 

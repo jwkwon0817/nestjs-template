@@ -25,21 +25,27 @@ export class AssetFacade {
 
   async uploadAsset(file: Express.Multer.File,
     directory?: AssetDirectory | string): Promise<UploadAssetResult> {
-    return this.commandBus.execute(new UploadAssetCommand(file, directory));
+    return this.commandBus.execute(UploadAssetCommand.from({
+      file, directory,
+    }));
   }
 
   async uploadMultipleAssets(files: Express.Multer.File[],
     directory?: AssetDirectory | string): Promise<UploadMultipleAssetsResult> {
-    return this.commandBus.execute(new UploadMultipleAssetsCommand(files, directory));
+    return this.commandBus.execute(UploadMultipleAssetsCommand.from({
+      files, directory,
+    }));
   }
 
   async deleteAsset(id: string): Promise<void> {
-    return this.commandBus.execute(new DeleteAssetCommand(id));
+    return this.commandBus.execute(DeleteAssetCommand.from({ id }));
   }
 
   async getPresignedUrl(id: string,
     expiresIn?: number): Promise<GetPresignedUrlResult> {
-    return this.commandBus.execute(new GetPresignedUrlCommand(id, expiresIn));
+    return this.commandBus.execute(GetPresignedUrlCommand.from({
+      id, expiresIn,
+    }));
   }
 
   async checkAssetExists(id?: string, key?: string): Promise<CheckAssetExistsResult> {

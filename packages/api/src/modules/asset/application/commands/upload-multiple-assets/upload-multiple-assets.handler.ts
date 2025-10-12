@@ -40,7 +40,7 @@ implements ICommandHandler<UploadMultipleAssetsCommand, UploadMultipleAssetsResu
       };
     }));
 
-    return new UploadMultipleAssetsResult(uploadResults);
+    return UploadMultipleAssetsResult.from({ assets: uploadResults });
   }
 }
 

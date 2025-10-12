@@ -1,7 +1,7 @@
-export class GetPresignedUrlResult {
-  constructor(
-    public readonly url: string,
-    public readonly expiresAt: Date,
-  ) {}
+import { DataClass } from 'dataclasses';
+
+export class GetPresignedUrlResult extends DataClass {
+  url:       string;
+  expiresAt: Date;
 }
 

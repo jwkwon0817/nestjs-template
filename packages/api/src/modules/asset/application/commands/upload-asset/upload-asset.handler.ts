@@ -30,7 +30,12 @@ export class UploadAssetHandler implements ICommandHandler<UploadAssetCommand, U
 
     const url = this.s3Service.getPublicUrl(key);
 
-    return new UploadAssetResult(asset.id, key, url, asset.filename);
+    return UploadAssetResult.from({
+      id:       asset.id,
+      key,
+      url,
+      filename: asset.filename,
+    });
   }
 }
 

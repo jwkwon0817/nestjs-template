@@ -22,7 +22,10 @@ implements ICommandHandler<GetPresignedUrlCommand, GetPresignedUrlResult> {
     const url = await this.s3Service.getPresignedUrl(asset.key, { expiresIn });
     const expiresAt = new Date(Date.now() + (expiresIn * 1000));
 
-    return new GetPresignedUrlResult(url, expiresAt);
+    return GetPresignedUrlResult.from({
+      url,
+      expiresAt,
+    });
   }
 }
 

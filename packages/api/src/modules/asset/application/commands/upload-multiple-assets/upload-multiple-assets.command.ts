@@ -1,7 +1,7 @@
-export class UploadMultipleAssetsCommand {
-  constructor(
-    public readonly files: Express.Multer.File[],
-    public readonly path?: string,
-  ) {}
+import { DataClass } from 'dataclasses';
+
+export class UploadMultipleAssetsCommand extends DataClass {
+  files: Express.Multer.File[];
+  path?: string;
 }
 

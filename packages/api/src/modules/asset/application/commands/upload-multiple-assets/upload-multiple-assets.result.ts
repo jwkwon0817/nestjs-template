@@ -1,11 +1,11 @@
-export class UploadMultipleAssetsResult {
-  constructor(
-    public readonly assets: Array<{
-      id:       string;
-      key:      string;
-      url:      string;
-      filename: string;
-    }>,
-  ) {}
+import { DataClass } from 'dataclasses';
+
+export class UploadMultipleAssetsResult extends DataClass {
+  assets: Array<{
+    id:       string;
+    key:      string;
+    url:      string;
+    filename: string;
+  }>;
 }
 
